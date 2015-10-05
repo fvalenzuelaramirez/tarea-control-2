@@ -1,0 +1,39 @@
+setwd("C:/Users/usuario/Desktop/Control 2")
+#Se crearon dos archivos, porque una de las empresas empezo el 20/08/2012,
+#por lo que tiene 2 datos menos
+data <- read.csv2("Tarea control 2.1.csv")
+data2 <- read.csv2("Tarea control 2.2.csv")
+#Calculamos la media de cada empresa
+promforus <- mean(data$FORUS.RETORNO)
+promiam <- mean(data$IAM.RETORNO)
+promilc <- mean(data2$ILC.RETORNO)
+#Calculamos la desviacion estandar de cada empresa
+sdforus <- sd(data$FORUS.RETORNO)
+sdiam <- sd(data$IAM.RETORNO)
+sdilc <- sd(data2$ILC.RETORNO)
+#Calculamos la matriz de correlacion
+#Para esto utilizamos el segundo archivo que toma de precio desde 20/08/2012
+arreglo <- data.frame(data2$ILC.RETORNO,data2$FORUS.RETORNO2,data2$IAM.RETORNO2)
+matrizcorrelacion <- cor(arreglo)
+#Calculamos las regresiones del retorno de cada empresa, respecto al retorno del IGPA
+regforus <- lm(data$FORUS.RETORNO ~ data$IGPA.RETORNO)
+summary(regforus)
+regiam <- lm(data$IAM.RETORNO ~ data$IGPA.RETORNO)
+summary(regiam)
+#Para ILC utilizamos el archivo 2
+regilc <- lm(data2$ILC.RETORNO ~ data2$IGPA.RETORNO2)
+summary(regilc)
+#Para graficar ultilizaremos gplot, por lo que tenemos que instalar el paquete
+install.packages("ggplot2")
+library(ggplot2)
+#Graficamos cada variable respecto a la fecha
+#Grafico precio
+qplot(data$FECHAGRAF,data$IGPA.PRECIO)
+qplot(data$FECHAGRAF,data$FORUS.PRECIO)
+qplot(data$FECHAGRAF,data$IAM.PRECIO)
+qplot(data2$FECHAGRAF2,data$ILC.PRECIO)
+#Grafico retorno
+qplot(data$FECHAGRAF,data$IGPA.RETORNO)
+qplot(data$FECHAGRAF,data$FORUS.RETORNO)
+qplot(data$FECHAGRAF,data$IAM.RETORNO)
+qplot(data$FECHAGRAF2,data$ILC.RETORNO)
